@@ -104,11 +104,11 @@ function App() {
 
   const pollutantsString = sortedPollutants
     .map(([component, value]) => `${component} (level ${value})`)
-    .join(", ");
+    .join(" and ");
 
   return (
     <div className="App">
-      <div style={{ margin: "16px" }}>
+      <div style={{ margin: "8px" }}>
         <h1 style={{ paddingTop: "48px", marginBottom: "16px" }}>
           💨 Berlin pollution data
         </h1>
