@@ -1,0 +1,25 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.App {
+  text-align: center;
+  background-color: rgb(245, 245, 245);
+  height: 100%;
+  width: 100vw;
+display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+
+
+
+}
+
+
