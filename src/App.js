@@ -1,5 +1,5 @@
 import "./App.css";
-//test another comment
+//test another coom
 import React, { useState, useEffect } from "react";
 import {
   BarChart,
@@ -213,7 +213,7 @@ function App() {
                     <XAxis dataKey="component" />
                     <YAxis />
                     <Tooltip />
-                    <Legend />
+
                     <Bar dataKey="value" fill="blue" />
                   </BarChart>
                 </ResponsiveContainer>
