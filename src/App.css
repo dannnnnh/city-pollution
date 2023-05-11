@@ -23,3 +23,13 @@ display: flex;
 }
 
 
+.circle {
+  border: 1px solid blue;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+

@@ -10,6 +10,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -132,78 +133,35 @@ function App() {
 
   //Create a string of the pollutants
   const pollutantsString = sortedPollutants
-    .filter(([component, value]) => component !== "lqi")
     .map(([component, value]) => `${component} (level ${value})`)
     .join(" and ");
 
+  const pollutantColors = {
+    lqi: "red",
+    no2: "green",
+    pm10: "blue",
+    so2: "purple",
+    o3: "orange",
+    co: "yellow",
+  };
+
   return (
     <div className="App">
-      <div style={{ margin: "16px" }}>
-        <h1 style={{ paddingTop: "48px", marginBottom: "16px" }}>
-          💨 Berlin pollution data
-        </h1>
-        <p style={{ marginBottom: "8px" }}>
-          Real time pollution level from around the city.
-        </p>
-        <div style={{ margin: "32px" }}>
-          <h3 style={{ lineHeight: "48px" }}>
-            On{" "}
-            <span
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-                padding: "7px",
-                borderRadius: "4px",
-                margin: "2px",
-              }}
-            >
-              {currentDate}
-            </span>
-            , the most polluted keiz in Berlin is{" "}
-            <span
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-                padding: "7px",
-                borderRadius: "4px",
-                margin: "2px",
-              }}
-            >
-              {mostPollutedStationName}
-            </span>{" "}
-            with the most amount of{" "}
-            <span
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-                padding: "7px",
-                borderRadius: "4px",
-                margin: "2px",
-              }}
-            >
-              {pollutantsString}
-            </span>
-            .
-          </h3>
-
-          <p>Interpretation of data (Adding soon)</p>
-        </div>
-      </div>
+      ...
       <div
         style={{
           margin: "4px",
           width: "100%",
           display: "flex",
-          justifyContent: "center", // Add this line to center the charts
+          justifyContent: "center",
           flexDirection: "row",
           flexWrap: "wrap",
         }}
       >
+        {/* Loop through the data */}
         {data.map((stationData, index) => {
-          const chartData = stationData.data.filter(
-            (data) => data.component !== "lqi"
-          );
-          const firstMeasurement = stationData.data[0];
+          const chartData = stationData.data;
+
           return (
             <div
               key={index}
@@ -218,39 +176,38 @@ function App() {
                 {stationCodeToNameMap[stationData.station] ||
                   stationData.station}
               </h3>
-              {firstMeasurement && (
-                <p style={{ marginTop: "24px" }}>
-                  {dateFormatter.format(new Date(firstMeasurement.datetime))}
-                </p>
-              )}
               <div
                 style={{
-                  minWidth: "300px",
-                  height: 250,
                   display: "flex",
-                  alignItems: "center",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginTop: "24px",
                 }}
               >
-                <ResponsiveContainer>
-                  <BarChart
-                    data={chartData}
-                    // Remove the width property
-                    height={250}
-                    margin={{
-                      top: 12,
-                      right: 30,
-                      left: 20,
-                      bottom: 12,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="component" />
-                    <YAxis />
-                    <Tooltip />
-
-                    <Bar dataKey="value" fill="blue" />
-                  </BarChart>
-                </ResponsiveContainer>
+                {stationData.data.map((measurement, mIndex) => {
+                  const pollutionLevel = measurement.value;
+                  const circleColor =
+                    pollutantColors[measurement.component] || "gray";
+                  return (
+                    <div
+                      key={mIndex}
+                      className="circle"
+                      style={{
+                        width: `${pollutionLevel}px`,
+                        height: `${pollutionLevel}px`,
+                        backgroundColor: circleColor,
+                        margin: "8px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span style={{ color: "white" }}>
+                        {measurement.component.toUpperCase()}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );
