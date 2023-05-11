@@ -14,6 +14,7 @@ import {
 } from "recharts";
 
 function App() {
+
   //This is for the graph data
   const [data, setData] = useState([]);
 
@@ -30,6 +31,7 @@ function App() {
     day: "2-digit",
   });
 
+
   //Function for fetching the stations data
   const fetchStations = async () => {
     try {
@@ -45,6 +47,7 @@ function App() {
       return [];
     }
   };
+
 
   //Function for creating a map of station codes to station names
   const createStationCodeToNameMap = (stations) => {
@@ -80,6 +83,7 @@ function App() {
     fetchData();
   }, []);
 
+
   //If loading is true, show loading text
   if (loading) {
     return <div>Loading...</div>;
@@ -90,6 +94,7 @@ function App() {
 
   //Function for handling the most polluted keiz text
   const findMostPollutedKeiz = (data) => {
+
     //Set the most polluted keiz to empty string
     let mostPollutedKeiz = "";
     let pollutants = new Map(); // Use a Map to store unique pollutants and their values
@@ -98,9 +103,11 @@ function App() {
     data.forEach((stationData) => {
       //Loop through the station data
       stationData.data.forEach((measurement) => {
+
         //If the current measurement is greater than the current max, set the current max to the current measurement
         const currentMax = pollutants.get(measurement.component);
         if (!currentMax || measurement.value > currentMax) {
+
           //Set the most polluted keiz to the current station
           pollutants.set(measurement.component, measurement.value);
 
@@ -114,6 +121,7 @@ function App() {
 
     return { mostPollutedKeiz, pollutants };
   };
+
 
   //Get the most polluted keiz and pollutants
   const { mostPollutedKeiz, pollutants } = findMostPollutedKeiz(data);
@@ -132,7 +140,6 @@ function App() {
 
   //Create a string of the pollutants
   const pollutantsString = sortedPollutants
-    .filter(([component, value]) => component !== "lqi")
     .map(([component, value]) => `${component} (level ${value})`)
     .join(" and ");
 
@@ -199,10 +206,9 @@ function App() {
           flexWrap: "wrap",
         }}
       >
+       
         {data.map((stationData, index) => {
-          const chartData = stationData.data.filter(
-            (data) => data.component !== "lqi"
-          );
+          const chartData = stationData.data;
           const firstMeasurement = stationData.data[0];
           return (
             <div
